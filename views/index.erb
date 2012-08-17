@@ -1,0 +1,56 @@
+<pre id="level" style="font-family: Courier; font-size: 16pt"><%= @level['text'] %></pre>
+<small><%= @level['copyright'] %></small>
+
+<script>
+  var game = new GameSokoban();
+  var field = document.getElementById('level');
+  var initial_level = field.innerHTML
+  game.set_level(initial_level);
+
+  function move(direction){
+    game.sokoban_move(direction);
+    field.innerHTML = game.get_level();
+    return false;
+  }
+
+  function restart_level(){
+    game.set_level(initial_level);
+    field.innerHTML = game.get_level();
+    return false;
+  }
+
+  function handle_keyboard(e){
+    e = (e) ? e : ((window.event) ? e : null);
+    if (e){
+      switch(e.keyCode){
+        case 37: move('left'); break;
+        case 38: move('up'); break;
+        case 39: move('right'); break;
+        case 40: move('down'); break;
+      }
+    }
+  }
+
+  document.onkeydown = handle_keyboard;
+
+</script>
+
+<table>
+  <tr>
+    <td></td>
+    <td align="center"><button onClick="move('up')" >Up</button></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><button onClick="move('left')" >Left</button></td>
+    <td align="center">[curson]</td>
+    <td><button onClick="move('right')" >Right</button></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><button onClick="move('down')" >Down</button></td>
+    <td></td>
+  </tr>
+</table>
+
+<a href="#" onClick="restart_level()">restart</a>
